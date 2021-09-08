@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { Theme, useMediaQuery } from '@material-ui/core';
 import {
   Create,
   Datagrid,
   Edit,
   EditButton,
   List,
+  SimpleList,
   ListProps,
   ReferenceField,
   ReferenceInput,
@@ -25,18 +27,32 @@ const PostTitle = ({ record }: Record<any, any>) => {
   return <span>Post {record ? `"${record.title}"` : ''}</span>;
 };
 
-export const PostList = (props: ListProps): JSX.Element => (
-    <List filters={postFilters} {...props}>
-      <Datagrid>
-        <TextField source="id" />
-        <ReferenceField source="userId" reference="users">
-          <TextField source="name" />
-        </ReferenceField>
-        <TextField source="title" />
-        <EditButton />
-      </Datagrid>
-    </List>
-);
+export const PostList = (props: ListProps): JSX.Element => {
+  const isSmall = useMediaQuery<Theme>((theme: Theme) => theme.breakpoints.down('sm'));
+
+  return (
+      <List filters={postFilters} {...props}>
+        {isSmall ? (
+            <SimpleList
+                primaryText={record => record.title}
+                secondaryText={record => `${record.views} views`}
+                tertiaryText={record => new Date(record.published_at).toLocaleDateString()}
+            />
+        ) : (
+            <Datagrid>
+              <TextField source="id" />
+              <ReferenceField label="User" source="userId" reference="users">
+                <TextField source="name" />
+              </ReferenceField>
+              <TextField source="title" />
+              <TextField source="body" />
+              <EditButton />
+            </Datagrid>
+        )}
+      </List>
+  );
+
+}
 
 export const PostEdit = (props: ListProps): JSX.Element => (
     <Edit title={<PostTitle />} {...props}>
