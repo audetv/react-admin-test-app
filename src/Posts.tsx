@@ -1,16 +1,17 @@
 import * as React from 'react';
 import {
-  List,
+  Create,
   Datagrid,
-  TextField,
-  ReferenceField,
-  EditButton,
   Edit,
-  SimpleForm,
+  EditButton,
+  List,
+  ListProps,
+  ReferenceField,
   ReferenceInput,
   SelectInput,
+  SimpleForm,
+  TextField,
   TextInput,
-  ListProps,
 } from 'react-admin';
 
 export const PostList = (props: ListProps): JSX.Element => (
@@ -38,3 +39,16 @@ export const PostEdit = (props: ListProps): JSX.Element => (
       </SimpleForm>
     </Edit>
 );
+
+export const PostCreate = (props: ListProps): JSX.Element => (
+    <Create {...props}>
+      <SimpleForm>
+        <ReferenceInput source="userId" reference="users">
+          <SelectInput optionText="name" />
+        </ReferenceInput>
+        <TextInput source="title" />
+        <TextInput multiline source="body" />
+      </SimpleForm>
+    </Create>
+);
+
