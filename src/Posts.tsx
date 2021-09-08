@@ -14,6 +14,10 @@ import {
   TextInput,
 } from 'react-admin';
 
+const PostTitle = ({ record }: Record<any, any>) => {
+  return <span>Post {record ? `"${record.title}"` : ''}</span>;
+};
+
 export const PostList = (props: ListProps): JSX.Element => (
     <List {...props}>
       <Datagrid>
@@ -28,7 +32,7 @@ export const PostList = (props: ListProps): JSX.Element => (
 );
 
 export const PostEdit = (props: ListProps): JSX.Element => (
-    <Edit {...props}>
+    <Edit title={<PostTitle />} {...props}>
       <SimpleForm>
         <TextInput source="id" />
         <ReferenceInput source="userId" reference="users">
