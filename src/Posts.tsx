@@ -14,12 +14,19 @@ import {
   TextInput,
 } from 'react-admin';
 
+const postFilters = [
+  <TextInput source="q" label="Search" alwaysOn />,
+  <ReferenceInput source="userId" label="User" reference="users" allowEmpty>
+    <SelectInput optionText="name" />
+  </ReferenceInput>,
+];
+
 const PostTitle = ({ record }: Record<any, any>) => {
   return <span>Post {record ? `"${record.title}"` : ''}</span>;
 };
 
 export const PostList = (props: ListProps): JSX.Element => (
-    <List {...props}>
+    <List filters={postFilters} {...props}>
       <Datagrid>
         <TextField source="id" />
         <ReferenceField source="userId" reference="users">
